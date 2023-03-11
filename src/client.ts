@@ -1,6 +1,6 @@
 import {
-  ConfigFromRouter,
-  LevelsFromRouter,
+  RoutesFromRouter,
+  ArgsFromRouter,
   LooseUntypeableHandler,
   UntypeableHandler,
   UntypeableRouter,
@@ -8,10 +8,10 @@ import {
 
 export const createClient = <
   TRouter extends UntypeableRouter<any, any>,
-  TLevels extends readonly string[] = LevelsFromRouter<TRouter>,
-  TConfig extends Record<string, any> = ConfigFromRouter<TRouter>,
+  TArgs extends readonly string[] = ArgsFromRouter<TRouter>,
+  TConfig extends Record<string, any> = RoutesFromRouter<TRouter>,
 >(
-  handler: LooseUntypeableHandler<TLevels>,
-): UntypeableHandler<TLevels, TConfig> => {
+  handler: LooseUntypeableHandler<TArgs>,
+): UntypeableHandler<TArgs, TConfig> => {
   return handler as any;
 };

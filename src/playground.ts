@@ -1,14 +1,11 @@
-// Features we want:
-// Merging
-// Creating generic functions from configs
-// Creating configs with multiple nesting
-
 import { createClient } from "./client";
 import { initUntypeable } from "./untypeable";
 
-const u = initUntypeable()
-  .addLevel<"twitter" | "youtube">()
-  .addLevel<"GET" | "POST" | "PUT">();
+const u = initUntypeable().args<
+  "twitter" | "youtube",
+  string,
+  "GET" | "PUT" | "POST" | "DELETE"
+>();
 
 type User = {
   id: string;
@@ -16,22 +13,34 @@ type User = {
 };
 
 // Create a tRPC-style router definition
-const userRouter = u.router().add("/user/:id", {
-  twitter: {
-    GET: u.input().output<User>(),
-    PUT: u.input().output<User>(),
-  },
-});
+const userRouter = u
+  .router()
+  .add({
+    twitter: {
+      "/user/:id": {
+        GET: u
+          .input<{
+            id: string;
+          }>()
+          .output<User>(),
+      },
+    },
+  })
+  .add({
+    youtube: {
+      "/user/:id": {},
+    },
+  });
 
 // Create a client from the TYPE of the router,
 // meaning that the router never gets bundled
 const fetchFromRouter = createClient<typeof userRouter>(
-  async (path, method, input) => {
+  async (api, path, method, input) => {
     // Fetch from server in here
   },
 );
 
 // Type-safe data access!
-fetchFromRouter("/user/:id", "GET", {
-  name: "John Doe",
+const user = fetchFromRouter("twitter", "/user/:id", "GET", {
+  id: "123",
 });

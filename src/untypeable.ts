@@ -28,7 +28,9 @@ const initOutput = (): UntypeableOutput<any, any> => {
 
 export const initUntypeable = (): UntypeableBase => {
   return {
-    addLevel: () => initUntypeable() as any,
+    pushArg: () => initUntypeable() as any,
+    unshiftArg: () => initUntypeable() as any,
+    args: () => initUntypeable() as any,
     input: () => initInput(),
     output: () => initOutput(),
     router: () => initRouter(),

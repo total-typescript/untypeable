@@ -69,8 +69,6 @@ const user = await client("/user", {
 
 You can set up `untypeable` to run in zero-bundle mode. This is great for situations where you trust the API you're calling, but it just doesn't have types.
 
-If you don't trust the API you're calling, use 'runtime-safe mode'.
-
 To set up zero-bundle mode, you'll need to:
 
 1. Define your router in a file called `router.ts`.

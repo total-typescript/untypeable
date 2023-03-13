@@ -1,5 +1,11 @@
 type DefaultArgs = [string];
 
+export type AcceptedParser<T> =
+  | ((input: unknown) => T)
+  | {
+      parse: (input: unknown) => T;
+    };
+
 export interface UntypeableBase<TArgs extends readonly string[] = DefaultArgs> {
   pushArg: <TArg extends string>() => UntypeableBase<[...TArgs, TArg]>;
   unshiftArg: <TArg extends string>() => UntypeableBase<[TArg, ...TArgs]>;
@@ -20,8 +26,10 @@ export interface UntypeableBase<TArgs extends readonly string[] = DefaultArgs> {
   >(): UntypeableBase<[TArg1, TArg2, TArg3, TArg4]>;
   args<TArgs extends readonly string[]>(): UntypeableBase<TArgs>;
   router: () => UntypeableRouter<TArgs>;
-  input: <TInput>() => UntypeableInput<TInput>;
-  output: <TOutput>() => UntypeableOutput<{}, TOutput>;
+  input: <TInput>(parser?: AcceptedParser<TInput>) => UntypeableInput<TInput>;
+  output: <TOutput>(
+    parser?: AcceptedParser<TOutput>,
+  ) => UntypeableOutput<{}, TOutput>;
 }
 
 export type Prettify<T> = {

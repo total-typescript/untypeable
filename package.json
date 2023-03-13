@@ -14,7 +14,9 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "prepublish": "npm run build"
+    "lint": "tsc",
+    "ci": "npm run build && npm run lint",
+    "prepublish": "npm run ci"
   },
   "keywords": [],
   "author": "Matt Pocock",

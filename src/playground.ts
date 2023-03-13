@@ -1,46 +1,41 @@
 import { createClient } from "./client";
 import { initUntypeable } from "./untypeable";
 
-const u = initUntypeable().args<
-  "twitter" | "youtube",
-  string,
-  "GET" | "PUT" | "POST" | "DELETE"
->();
+const u = initUntypeable().pushArg<"GET" | "POST" | "PUT" | "DELETE">();
 
 type User = {
   id: string;
   name: string;
 };
 
-// Create a tRPC-style router definition
-const userRouter = u
-  .router()
-  .add({
-    twitter: {
-      "/user/:id": {
-        GET: u
-          .input<{
-            id: string;
-          }>()
-          .output<User>(),
-      },
-    },
-  })
-  .add({
-    youtube: {
-      "/user/:id": {},
-    },
-  });
-
-// Create a client from the TYPE of the router,
-// meaning that the router never gets bundled
-const fetchFromRouter = createClient<typeof userRouter>(
-  async (api, path, method, input) => {
-    // Fetch from server in here
+const router = u.router().add({
+  "/user": {
+    GET: u.input<{ id: string }>().output<User>(),
+    POST: u.input<{ name: string }>().output<User>(),
+    DELETE: u.input<{ id: string }>().output<void>(),
   },
-);
+});
 
-// Type-safe data access!
-const user = fetchFromRouter("twitter", "/user/:id", "GET", {
-  id: "123",
+const client = createClient<typeof router>((path, method, input) => {
+  let resolvedPath = path;
+  let resolvedInit: RequestInit = {};
+
+  switch (method) {
+    case "GET":
+      resolvedPath += `?${new URLSearchParams(input as any)}`;
+      break;
+    case "DELETE":
+    case "POST":
+    case "PUT":
+      resolvedInit = {
+        method,
+        body: JSON.stringify(input),
+      };
+  }
+
+  return fetch(resolvedPath, resolvedInit).then((res) => res.json());
+});
+
+const result = await client("/user", "POST", {
+  name: "Matt",
 });

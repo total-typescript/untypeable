@@ -36,6 +36,6 @@ const client = createClient<typeof router>((path, method, input) => {
   return fetch(resolvedPath, resolvedInit).then((res) => res.json());
 });
 
-const result = await client("/user", "POST", {
+const result = client("/user", "POST", {
   name: "Matt",
 });

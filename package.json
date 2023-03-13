@@ -2,15 +2,25 @@
   "name": "untypeable",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "prepublish": "npm run build"
   },
   "keywords": [],
   "author": "Matt Pocock",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^18.14.6",
+    "tsup": "^6.6.3",
     "typescript": "^4.9.5"
   }
 }

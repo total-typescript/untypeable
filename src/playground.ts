@@ -14,6 +14,9 @@ const router = u.router({
     POST: u.input<{ name: string }>().output<User>(),
     DELETE: u.input<{ id: string }>().output<void>(),
   },
+  "/epic": {
+    GET: u.input<{ id: string }>().output<User>(),
+  },
 });
 
 const client = createTypeLevelClient<typeof router>((path, method, input) => {
@@ -36,6 +39,6 @@ const client = createTypeLevelClient<typeof router>((path, method, input) => {
   return fetch(resolvedPath, resolvedInit).then((res) => res.json());
 });
 
-const result = client("/user", "POST", {
-  name: "Matt",
+const result = client("/epic", "GET", {
+  id: "123",
 });

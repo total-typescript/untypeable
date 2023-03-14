@@ -152,9 +152,9 @@ export const client = createSafeClient(router, () => {
 
 Now, every call made to client will have its `input` and `output` verified by the zod schemas passed.
 
-## Examples
+## Arguments
 
-### Using REST methods
+### `.pushArg`
 
 Using the `.pushArg` method when we `initUntypeable` lets us add new arguments that must be passed to our client.
 
@@ -207,4 +207,77 @@ const client = createTypeLevelClient<typeof router>((path, method, input) => {
 const result = await client("/user", "POST", {
   name: "Matt",
 });
+```
+
+You can call this as many times as you want!
+
+```ts
+const u = initUntypeable()
+  .pushArg<"GET" | "POST" | "PUT" | "DELETE">()
+  .pushArg<"foo" | "bar">();
+
+const router = u.router({
+  "/": {
+    GET: {
+      foo: u.output<string>,
+    },
+  },
+});
+```
+
+### `.unshiftArg`
+
+You can also add an argument at the _start_ using `.unshiftArg`. This is useful for when you want to add different base endpoints:
+
+```ts
+const u = initUntypeable().unshiftArg<"github", "youtube">();
+
+const router = u.router({
+  github: {
+    "/repos": u.output<{ repos: { id: string }[] }>(),
+  },
+});
+```
+
+### `.args`
+
+Useful for when you want to set the args up manually:
+
+```ts
+const u = initUntypeable().args<string, string, string>();
+
+const router = u.router({
+  "any-string": {
+    "any-other-string": {
+      "yet-another-string": u.output<string>(),
+    },
+  },
+});
+```
+
+## Organizing your routers
+
+### `.add`
+
+You can add more detail to a router, or split it over multiple calls, by using `router.add`.
+
+```ts
+const router = u
+  .router({
+    "/": u.output<string>(),
+  })
+  .add({
+    "/user": u.output<User>(),
+  });
+```
+
+### `.merge`
+
+You can merge two routers together using `router.merge`. This is useful for when you want to combine multiple routers (perhaps in different modules) together.
+
+```ts
+import { userRouter } from "./userRouter";
+import { postRouter } from "./postRouter";
+
+export const baseRouter = userRouter.merge(postRouter);
 ```

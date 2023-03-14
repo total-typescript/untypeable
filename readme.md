@@ -1,14 +1,14 @@
 # Untypeable
 
-Type untypeable API's with ease, with a zero-bundle size option.
+Get type-safe access to any API, with a zero-bundle size option.
 
 ## The Problem
 
-Most TypeScript projects will have to, at some point, use the network.
+If you're lucky enough to use [tRPC](https://trpc.io/), [GraphQL](https://graphql.org/), or [OpenAPI](https://www.openapis.org/), you'll be able to get **type-safe access to your API** - either through a type-safe RPC or codegen.
 
-If you're lucky enough to use [tRPC](https://trpc.io/), [GraphQL](https://graphql.org/), or [OpenAPI](https://www.openapis.org/), you'll be able to get type-safe access to network resources.
+But **what about the rest of us**?
 
-But what if **your API has no types**? You're left to fend for yourself.
+What do you do if **your API has no types**?
 
 ## Solution
 

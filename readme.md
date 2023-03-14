@@ -152,7 +152,30 @@ export const client = createSafeClient(router, () => {
 
 Now, every call made to client will have its `input` and `output` verified by the zod schemas passed.
 
-## Arguments
+## Configuration & Arguments
+
+`untypeable` lets you be extremely flexible with the shape of your router.
+
+Each level of the router corresponds to an argument that'll be passed to your client.
+
+```ts
+// A router that looks like this:
+const router = u.router({
+  github: {
+    "/repos": {
+      GET: u.output<string[]>(),
+      POST: u.output<string[]>(),
+    },
+  },
+});
+
+const client = createTypeLevelClient<typeof router>(() => {});
+
+// Will need to be called like this:
+client("github", "/repos", "POST");
+```
+
+You can set up this argument structure using the methods below:
 
 ### `.pushArg`
 

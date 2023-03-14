@@ -43,11 +43,13 @@ const router = u.router({
   "/user": u.input<{ id: string }>().output<User>(),
 });
 
+const BASE_PATH = "http://localhost:3000";
+
 // Create your client
 // - Pass any fetch implementation here
 const client = createTypeLevelClient<typeof router>((path, input) => {
-  return fetch(path + `?${new URLSearchParams(input)}`).then((res) =>
-    res.json(),
+  return fetch(BASE_PATH + path + `?${new URLSearchParams(input)}`).then(
+    (res) => res.json(),
   );
 });
 

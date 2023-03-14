@@ -1,6 +1,6 @@
 {
   "name": "untypeable",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Get type-safe access to any API, with a zero-bundle size option.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

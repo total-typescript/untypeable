@@ -1,7 +1,7 @@
 import { expect, it, vitest } from "vitest";
-import { initUntypeable } from "../untypeable";
 import { z } from "zod";
-import { createClient, createSafeClient } from "../client";
+import { createSafeClient } from "../client";
+import { initUntypeable } from "../untypeable";
 
 it("Should let you define inputs and outputs as schemas", async () => {
   const u = initUntypeable();

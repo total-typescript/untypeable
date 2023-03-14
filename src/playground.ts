@@ -8,7 +8,7 @@ type User = {
   name: string;
 };
 
-const router = u.router().add({
+const router = u.router({
   "/user": {
     GET: u.input<{ id: string }>().output<User>(),
     POST: u.input<{ name: string }>().output<User>(),

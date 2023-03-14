@@ -20,11 +20,20 @@ const isInput = (value: {
   return value.__type === "input";
 };
 
+const combineMaps = <K, V>(map1: Map<K, V>, map2: Map<K, V>) => {
+  const newMap = new Map(map1);
+
+  for (const [key, value] of map2) {
+    newMap.set(key, value);
+  }
+
+  return newMap;
+};
+
 const initRouter = <TRoutes extends Record<string, any> = {}>(
   routes: TRoutes,
+  schemaMap: SchemaMap = new Map(),
 ): UntypeableRouter => {
-  const schemaMap: SchemaMap = new Map();
-
   const collectRoutes = (
     routes: Record<string, UntypeableOutput<any, any> | Record<string, any>>,
     path: string[] = [],
@@ -46,8 +55,9 @@ const initRouter = <TRoutes extends Record<string, any> = {}>(
   collectRoutes(routes);
 
   return {
-    add: (routes) => initRouter(routes),
-    merge: () => initRouter(),
+    add: (newRoutes) => initRouter(newRoutes, schemaMap),
+    merge: (router) =>
+      initRouter({}, combineMaps(router._schemaMap, schemaMap)),
     _schemaMap: schemaMap,
   };
 };

@@ -12,6 +12,12 @@ import {
  *
  * If you're using createTypeLevelClient, we recommend importing
  * it from 'untypeable/client' to minimize bundle size.
+ *
+ * @example
+ *
+ * const client = createTypeLevelClient<MyRouterType>((path) => {
+ *   return fetch(path).then(res => res.json());
+ * });
  */
 export const createTypeLevelClient = <
   TRouter extends UntypeableRouter<any, any>,

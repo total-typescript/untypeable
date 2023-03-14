@@ -1,4 +1,4 @@
-import { createClient } from "./client";
+import { createTypeLevelClient } from "./client";
 import { initUntypeable } from "./untypeable";
 
 const u = initUntypeable().pushArg<"GET" | "POST" | "PUT" | "DELETE">();
@@ -16,7 +16,7 @@ const router = u.router({
   },
 });
 
-const client = createClient<typeof router>((path, method, input) => {
+const client = createTypeLevelClient<typeof router>((path, method, input) => {
   let resolvedPath = path;
   let resolvedInit: RequestInit = {};
 

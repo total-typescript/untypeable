@@ -1,6 +1,6 @@
 import { expect, it, vitest } from "vitest";
 import { z } from "zod";
-import { createSafeClient } from "../client";
+import { createSafeClient } from "../safe-client";
 import { initUntypeable } from "../untypeable";
 
 const u = initUntypeable();

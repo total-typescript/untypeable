@@ -33,7 +33,7 @@ Enter `untypeable` - a first-class library for typing API's you don't control.
 `npm i untypeable`
 
 ```ts
-import { initUntypeable, createClient } from "untypeable";
+import { initUntypeable, createSafeClient } from "untypeable";
 
 // Initialize untypeable
 const u = initUntypeable();
@@ -51,7 +51,7 @@ const router = u.router({
 
 // Create your client
 // - Pass any fetch implementation here
-const client = createClient(router, (path, input) => {
+const client = createSafeClient(router, (path, input) => {
   return fetch(path + `?${new URLSearchParams(input)}`).then((res) =>
     res.json(),
   );
@@ -98,7 +98,7 @@ export type MyRouter = typeof router;
 ```ts
 // client.ts
 
-import { createTypeLevelClient } from "untypeable/type-level-client";
+import { createTypeLevelClient } from "untypeable/client";
 import type { MyRouter } from "./router";
 
 export const client = createTypeLevelClient<MyRouter>(() => {
@@ -125,7 +125,7 @@ Sometimes, you just don't trust the API you're calling. In those situations, you
 `untypeable` offers first-class integration with [Zod](https://zod.dev). You can pass a Zod schema to `u.input` and `u.output` to ensure that these values are validated with Zod.
 
 ```ts
-import { initUntypeable } from "untypeable";
+import { initUntypeable, createSafeClient } from "untypeable";
 import { z } from "zod";
 
 const u = initUntypeable();
@@ -145,19 +145,21 @@ const router = u.router({
     ),
 });
 
-export const client = createClient(router, () => {
+export const client = createSafeClient(router, () => {
   // Implementation...
 });
 ```
 
+Now, every call made to client will have its `input` and `output` verified by the zod schemas passed.
+
 ## Examples
 
-### Using methods
+### Using REST methods
 
 Using the `.pushArg` method when we `initUntypeable` lets us add new arguments that must be passed to our client.
 
 ```ts
-import { initUntypeable, createClient } from "untypeable";
+import { initUntypeable, createTypeLevelClient } from "untypeable";
 
 // use .pushArg to add a new argument to
 // the router definition
@@ -180,7 +182,7 @@ const router = u.router({
 
 // The client now takes a new argument - method, which
 // is typed as 'GET' | 'POST' | 'PUT' | 'DELETE'
-const client = createClient<typeof router>((path, method, input) => {
+const client = createTypeLevelClient<typeof router>((path, method, input) => {
   let resolvedPath = path;
   let resolvedInit: RequestInit = {};
 

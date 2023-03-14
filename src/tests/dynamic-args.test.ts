@@ -1,5 +1,5 @@
 import { it, vitest } from "vitest";
-import { createClient } from "../client";
+import { createTypeLevelClient } from "../client";
 import { initUntypeable } from "../untypeable";
 
 it("Should let you specify 2 args", async () => {
@@ -11,7 +11,7 @@ it("Should let you specify 2 args", async () => {
     },
   });
 
-  const client = createClient<typeof router>(vitest.fn());
+  const client = createTypeLevelClient<typeof router>(vitest.fn());
 
   await client("GET", "ELSE");
 
@@ -29,7 +29,7 @@ it("Should default to only requiring one arg", async () => {
     GET: u.output<string>(),
   });
 
-  const client = createClient<typeof router>(vitest.fn());
+  const client = createTypeLevelClient<typeof router>(vitest.fn());
 
   await client("GET");
 

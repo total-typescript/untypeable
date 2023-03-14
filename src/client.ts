@@ -22,9 +22,9 @@ import {
 export const createTypeLevelClient = <
   TRouter extends UntypeableRouter<any, any>,
   TArgs extends readonly string[] = ArgsFromRouter<TRouter>,
-  TConfig extends Record<string, any> = RoutesFromRouter<TRouter>,
+  TRoutes extends Record<string, any> = RoutesFromRouter<TRouter>,
 >(
   handler: LooseUntypeableHandler<TArgs>,
-): UntypeableHandler<TArgs, TConfig> => {
+): UntypeableHandler<TArgs, TRoutes> => {
   return handler as any;
 };

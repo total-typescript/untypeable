@@ -12,11 +12,11 @@ import {
 export const createSafeClient = <
   TRouter extends UntypeableRouter<any, any>,
   TArgs extends ArgsFromRouter<TRouter>,
-  TConfig extends RoutesFromRouter<TRouter>,
+  TRoutes extends RoutesFromRouter<TRouter>,
 >(
   router: TRouter,
   handler: LooseUntypeableHandler<TArgs>,
-): UntypeableHandler<TArgs, TConfig> => {
+): UntypeableHandler<TArgs, TRoutes> => {
   return (async (...args: any[]) => {
     let schemas: Schemas;
 

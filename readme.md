@@ -6,7 +6,7 @@ Get type-safe access to any API, with a zero-bundle size option.
 
 If you're lucky enough to use [tRPC](https://trpc.io/), [GraphQL](https://graphql.org/), or [OpenAPI](https://www.openapis.org/), you'll be able to get **type-safe access to your API** - either through a type-safe RPC or codegen.
 
-But **what about the rest of us**?
+But what about the **REST** of us?
 
 What do you do if **your API has no types**?
 

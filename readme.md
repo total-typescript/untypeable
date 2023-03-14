@@ -61,6 +61,10 @@ const user = await client("/user", {
 });
 ```
 
+## SWAPI Example
+
+We've added a [full example](./docs/swapi-example/swapi-example.ts) of typing `swapi.dev`.
+
 ## Zero-bundle mode
 
 You can set up `untypeable` to run in zero-bundle mode. This is great for situations where you trust the API you're calling, but it just doesn't have types.

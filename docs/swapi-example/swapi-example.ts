@@ -33,6 +33,12 @@ export const fetchFromSwapi = createTypeLevelClient<typeof router>(
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((res) => res.json());
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      return res.json();
+    });
   },
 );

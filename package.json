@@ -1,7 +1,7 @@
 {
   "name": "untypeable",
   "version": "0.0.5",
-  "description": "",
+  "description": "Type untypeable API's with ease, with a zero-bundle size option.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",

@@ -4,6 +4,7 @@ specifiers:
   '@changesets/cli': ^2.26.0
   tsup: ^6.6.3
   typescript: ^4.9.5
+  vite: ^4.1.4
   vitest: ^0.29.2
   zod: ^3.21.4
 
@@ -11,6 +12,7 @@ devDependencies:
   '@changesets/cli': 2.26.0
   tsup: 6.6.3_typescript@4.9.5
   typescript: 4.9.5
+  vite: 4.1.4
   vitest: 0.29.2
   zod: 3.21.4
 
@@ -2800,6 +2802,39 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: true
+
+  /vite/4.1.4:
+    resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.16.17
+      postcss: 8.4.21
+      resolve: 1.22.1
+      rollup: 3.19.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /vite/4.1.4_@types+node@18.15.1:

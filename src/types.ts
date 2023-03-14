@@ -6,6 +6,13 @@ export type AcceptedParser<T> =
       parse: (input: unknown) => T;
     };
 
+export type SchemaMap = Map<string, Schemas>;
+
+export type Schemas = {
+  input: AcceptedParser<any> | undefined;
+  output: AcceptedParser<any> | undefined;
+};
+
 export interface UntypeableBase<TArgs extends readonly string[] = DefaultArgs> {
   pushArg: <TArg extends string>() => UntypeableBase<[...TArgs, TArg]>;
   unshiftArg: <TArg extends string>() => UntypeableBase<[TArg, ...TArgs]>;
@@ -25,7 +32,11 @@ export interface UntypeableBase<TArgs extends readonly string[] = DefaultArgs> {
     TArg4 extends string,
   >(): UntypeableBase<[TArg1, TArg2, TArg3, TArg4]>;
   args<TArgs extends readonly string[]>(): UntypeableBase<TArgs>;
-  router: () => UntypeableRouter<TArgs>;
+  router: <
+    TNewRoutes extends StringArrayToObject<TArgs, UntypeableOutput<any, any>>,
+  >(
+    routes: TNewRoutes,
+  ) => UntypeableRouter<TArgs, Prettify<TNewRoutes>>;
   input: <TInput>(parser?: AcceptedParser<TInput>) => UntypeableInput<TInput>;
   output: <TOutput>(
     parser?: AcceptedParser<TOutput>,
@@ -38,26 +49,29 @@ export type Prettify<T> = {
 
 export interface UntypeableInput<TInput> {
   __type: "input";
-  output: <TOutput>() => UntypeableOutput<TInput, TOutput>;
+  output: <TOutput>(
+    schema?: AcceptedParser<TOutput>,
+  ) => UntypeableOutput<TInput, TOutput>;
+  inputSchema: AcceptedParser<TInput> | undefined;
 }
 
 export interface UntypeableOutput<TInput, TOutput> {
   __type: "output";
+  outputSchema: AcceptedParser<TOutput> | undefined;
+  inputSchema: AcceptedParser<TInput> | undefined;
 }
 
 export interface UntypeableRouter<
   TArgs extends readonly string[] = DefaultArgs,
   TRoutes extends Record<string, any> = {},
 > {
+  _schemaMap: SchemaMap;
   add: <
     TNewRoutes extends StringArrayToObject<TArgs, UntypeableOutput<any, any>>,
   >(
     routes: TNewRoutes,
   ) => UntypeableRouter<TArgs, Prettify<TRoutes & TNewRoutes>>;
 
-  handler: (
-    handler: LooseUntypeableHandler<TArgs>,
-  ) => UntypeableHandler<TArgs, TRoutes>;
   merge: <TRoutes2 extends Record<string, any>>(
     router: UntypeableRouter<TArgs, TRoutes2>,
   ) => UntypeableRouter<TArgs, Prettify<TRoutes & TRoutes2>>;

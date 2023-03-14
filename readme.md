@@ -45,7 +45,7 @@ type User = {
 
 // Create a router
 // - Add typed inputs and outputs
-const router = u.router().add({
+const router = u.router({
   "/user": u.input<{ id: string }>().output<User>(),
 });
 
@@ -86,7 +86,7 @@ type User = {
   name: string;
 };
 
-const router = u.router().add({
+const router = u.router({
   "/user": u.input<{ id: string }>().output<User>(),
 });
 
@@ -130,7 +130,7 @@ import { z } from "zod";
 
 const u = initUntypeable();
 
-const router = u.router().add({
+const router = u.router({
   "/user": u
     .input(
       z.object({
@@ -170,7 +170,7 @@ type User = {
 
 // You can now optionally specify the
 // method on each route's definition
-const router = u.router().add({
+const router = u.router({
   "/user": {
     GET: u.input<{ id: string }>().output<User>(),
     POST: u.input<{ name: string }>().output<User>(),

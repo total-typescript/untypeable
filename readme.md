@@ -27,7 +27,7 @@ Enter `untypeable` - a first-class library for typing API's you don't control.
 `npm i untypeable`
 
 ```ts
-import { initUntypeable, createSafeClient } from "untypeable";
+import { initUntypeable, createTypeLevelClient } from "untypeable";
 
 // Initialize untypeable
 const u = initUntypeable();
@@ -45,7 +45,7 @@ const router = u.router({
 
 // Create your client
 // - Pass any fetch implementation here
-const client = createSafeClient(router, (path, input) => {
+const client = createTypeLevelClient<typeof router>((path, input) => {
   return fetch(path + `?${new URLSearchParams(input)}`).then((res) =>
     res.json(),
   );

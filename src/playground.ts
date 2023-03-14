@@ -1,44 +1,30 @@
-import { createTypeLevelClient } from "./client";
-import { initUntypeable } from "./untypeable";
+import { initUntypeable, createTypeLevelClient } from "untypeable";
 
-const u = initUntypeable().pushArg<"GET" | "POST" | "PUT" | "DELETE">();
+// Initialize untypeable
+const u = initUntypeable();
 
 type User = {
   id: string;
   name: string;
 };
 
+// Create a router
+// - Add typed inputs and outputs
 const router = u.router({
-  "/user": {
-    GET: u.input<{ id: string }>().output<User>(),
-    POST: u.input<{ name: string }>().output<User>(),
-    DELETE: u.input<{ id: string }>().output<void>(),
-  },
-  "/epic": {
-    GET: u.input<{ id: string }>().output<User>(),
-  },
+  "/user": u.input<{ id: string }>().output<User>(),
 });
 
-const client = createTypeLevelClient<typeof router>((path, method, input) => {
-  let resolvedPath = path;
-  let resolvedInit: RequestInit = {};
-
-  switch (method) {
-    case "GET":
-      resolvedPath += `?${new URLSearchParams(input as any)}`;
-      break;
-    case "DELETE":
-    case "POST":
-    case "PUT":
-      resolvedInit = {
-        method,
-        body: JSON.stringify(input),
-      };
-  }
-
-  return fetch(resolvedPath, resolvedInit).then((res) => res.json());
+// Create your client
+// - Pass any fetch implementation here
+const client = createTypeLevelClient<typeof router>((path, input) => {
+  return fetch(path + `?${new URLSearchParams(input)}`).then((res) =>
+    res.json(),
+  );
 });
 
-const result = client("/epic", "GET", {
-  id: "123",
+// Type-safe data access!
+// - user is typed as User
+// - { id: string } must be passed as the input
+const user = client("/user", {
+  id: "1",
 });

@@ -6,15 +6,9 @@ Type untypeable API's with ease, with a zero-bundle size option.
 
 Most TypeScript projects will have to, at some point, use the network.
 
-- In full-stack projects, you'll have **the backend in the same repository as the frontend**. In those cases, you should probably be using [tRPC](https://trpc.io/).
+If you're lucky enough to use [tRPC](https://trpc.io/), [GraphQL](https://graphql.org/), or [OpenAPI](https://www.openapis.org/), you'll be able to get type-safe access to network resources.
 
-- Sometimes, you'll be **calling a [GraphQL](https://graphql.org/) or [OpenAPI](https://www.openapis.org/) server**. In those cases, you can [generate](https://www.youtube.com/watch?v=5weFyMoBGN4) the types with a number of different CLI's.
-
-- Other times, you'll be using a **strongly-typed SDK** to access that data, like [Google's](https://github.com/googleapis/google-api-nodejs-client).
-
-But what about EVERY OTHER situation? What if your API doesn't use GraphQL or OpenAPI?
-
-What if your API is... _untypeable_?
+But what if **your API has no types**? You're left to fend for yourself.
 
 ## Solution
 

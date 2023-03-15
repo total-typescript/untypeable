@@ -135,6 +135,8 @@ export type ArgsFromRoutes<TRoutes> = TRoutes extends UntypeableOutput<
 >
   ? TInput extends Record<string, never>
     ? []
+    : Record<string, undefined> extends TInput
+    ? [input?: TInput]
     : [input: Prettify<TInput>]
   : never;
 

@@ -8,6 +8,7 @@ const u = initUntypeable();
 const router = u.router({
   inputNeeded: u.input<string>().output<number>(),
   noInputNeeded: u.output<boolean>(),
+  partialInputOnly: u.input<{ a?: string }>().output<{ a: string }>(),
 });
 
 describe("input types", () => {
@@ -40,6 +41,18 @@ describe("input types", () => {
     await client("noInputNeeded", "hello");
 
     expect(fn).toHaveBeenLastCalledWith("noInputNeeded", "hello");
+  });
+
+  it("Should not require an input if all properties of the input are optional", async () => {
+    const fn = vitest.fn();
+
+    const client = createTypeLevelClient<typeof router>(fn);
+
+    await client("partialInputOnly");
+    expect(fn).toHaveBeenLastCalledWith("partialInputOnly");
+
+    await client("partialInputOnly", {});
+    expect(fn).toHaveBeenLastCalledWith("partialInputOnly", {});
   });
 });
 

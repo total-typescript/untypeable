@@ -18,6 +18,13 @@
     },
     "./package.json": "./package.json"
   },
+  "typesVersions": {
+    "*": {
+      "client": [
+        "./dist/client.d.ts"
+      ],
+    }
+  },
   "scripts": {
     "build": "tsup",
     "lint": "tsc",

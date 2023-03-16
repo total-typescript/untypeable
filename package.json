@@ -22,7 +22,7 @@
     "*": {
       "client": [
         "./dist/client.d.ts"
-      ],
+      ]
     }
   },
   "scripts": {
